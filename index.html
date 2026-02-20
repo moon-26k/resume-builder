@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Resume Builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .form-section,
+        .preview-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 15px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        h2,
+        h3 {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="form-section">
+            <h2>Resume Form</h2>
+            <input type="text" id="name" placeholder="Full Name" oninput="updatePreview()">
+            <input type="text" id="email" placeholder="Email" oninput="updatePreview()">
+            <input type="text" id="phone" placeholder="Phone" oninput="updatePreview()">
+            <input type="text" id="linkedin" placeholder="LinkedIn" oninput="updatePreview()">
+            <textarea id="skills" placeholder="Skills (comma separated)" oninput="updatePreview()"></textarea>
+            <textarea id="education" placeholder="Education" oninput="updatePreview()"></textarea>
+            <textarea id="experience" placeholder="Work Experience" oninput="updatePreview()"></textarea>
+            <textarea id="projects" placeholder="Projects" oninput="updatePreview()"></textarea>
+
+            <button onclick="downloadPDF()">Download PDF</button>
+        </div>
+
+        <div class="preview-section" id="resumePreview">
+            <h2 id="pname"></h2>
+            <p id="pcontact"></p>
+            <p id="plinkedin"></p>
+
+            <h3>Skills</h3>
+            <p id="pskills"></p>
+
+            <h3>Education</h3>
+            <p id="peducation"></p>
+
+            <h3>Experience</h3>
+            <p id="pexperience"></p>
+
+            <h3>Projects</h3>
+            <p id="pprojects"></p>
+        </div>
+
+    </div>
+
+    <script>
+        function updatePreview() {
+            document.getElementById("pname").innerText = document.getElementById("name").value;
+            document.getElementById("pcontact").innerText =
+                document.getElementById("email").value + " | " +
+                document.getElementById("phone").value;
+            document.getElementById("plinkedin").innerText =
+                document.getElementById("linkedin").value;
+            document.getElementById("pskills").innerText =
+                document.getElementById("skills").value;
+            document.getElementById("peducation").innerText =
+                document.getElementById("education").value;
+            document.getElementById("pexperience").innerText =
+                document.getElementById("experience").value;
+            document.getElementById("pprojects").innerText =
+                document.getElementById("projects").value;
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.text(document.getElementById("resumePreview").innerText, 10, 10);
+            doc.save("resume.pdf");
+        }
+    </script>
+
+</body>
+
+</html>
